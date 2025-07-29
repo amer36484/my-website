@@ -12,6 +12,10 @@
       padding: 50px;
       background-color: white;
       transition: background-color 0.4s ease;
+      position: relative;
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding-bottom: 50px; /* kayan yazı için boşluk */
     }
 
     h1 {
@@ -36,6 +40,35 @@
     button:hover {
       background-color: #0056b3;
     }
+
+    /* Kayan yazı stil */
+    #scrolling-text {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      box-sizing: border-box;
+      background: #222;
+      color: #fff;
+      font-size: 1.2em;
+      padding: 10px 0;
+    }
+
+    #scrolling-text span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
   </style>
 </head>
 <body>
@@ -45,6 +78,11 @@
   <button onclick="changeBackgroundColor()">Change Background Color</button>
 
   <script>
+    // Ask for the user's name
+    const visitorName = prompt("What's your name?");
+    console.log("Visitor's name is: " + visitorName);
+
+    // Background color changer
     const colors = ["#ff6b6b", "#6bc5ff", "#6bff95", "#ffe66b", "#c56bff", "#ffb56b"];
     let index = 0;
 
@@ -52,8 +90,11 @@
       document.body.style.backgroundColor = colors[index];
       index = (index + 1) % colors.length;
     }
-
-    console.log("Hello from Manı's website!");
   </script>
+
+  <!-- Kayan yazı -->
+  <div id="scrolling-text">
+    <span>Planets of the Universe 🌍 🚀 ✨ Mercury • Venus • Earth • Mars • Jupiter • Saturn • Uranus • Neptune • Pluto (yes, still a planet!)</span>
+  </div>
 </body>
 </html>
