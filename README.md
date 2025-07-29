@@ -1,4 +1,5 @@
-## How to Open the Console on Any Website if you dont know
+## How to Open the Console on Any Website (If You Don’t Know)
+
 
 On every website, you can try opening the console—some sites allow it, some don't. Just give it a try!
 
