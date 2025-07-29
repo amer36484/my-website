@@ -2,29 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manı's Website</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      margin-top: 50px;
+      margin: 0;
+      padding: 50px;
       background-color: white;
+      transition: background-color 0.4s ease;
     }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #555;
+    }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to Manı's Website!</h1>
-  <p>This is a simple interactive webpage.</p>
+  <p>This is a simple interactive webpage built with HTML, CSS, and JavaScript.</p>
 
   <button onclick="changeBackgroundColor()">Change Background Color</button>
 
   <script>
-    const colors = ["red", "green", "blue", "yellow", "purple", "orange"];
+    const colors = ["#ff6b6b", "#6bc5ff", "#6bff95", "#ffe66b", "#c56bff", "#ffb56b"];
     let index = 0;
 
     function changeBackgroundColor() {
@@ -33,10 +54,6 @@
     }
 
     console.log("Hello from Manı's website!");
-
-    // Optional: Ask visitor's name and greet
-    // const visitorName = prompt("What is your name?");
-    // alert("Hello, " + visitorName + "! Welcome to the site.");
   </script>
 </body>
 </html>
