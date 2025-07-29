@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Manı'nın Web Sitesi</title>
+  <meta charset="UTF-8" />
+  <title>Manı's Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: white;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hoş geldin Manı!</h1>
-  <p>Bu benim ilk GitHub Pages sitem.</p>
+  <h1>Welcome to Manı's Website!</h1>
+  <p>This is a simple interactive webpage.</p>
+
+  <button onclick="changeBackgroundColor()">Change Background Color</button>
+
+  <script>
+    const colors = ["red", "green", "blue", "yellow", "purple", "orange"];
+    let index = 0;
+
+    function changeBackgroundColor() {
+      document.body.style.backgroundColor = colors[index];
+      index = (index + 1) % colors.length;
+    }
+
+    console.log("Hello from Manı's website!");
+
+    // Optional: Ask visitor's name and greet
+    // const visitorName = prompt("What is your name?");
+    // alert("Hello, " + visitorName + "! Welcome to the site.");
+  </script>
 </body>
 </html>
