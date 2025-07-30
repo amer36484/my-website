@@ -2,7 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Math Calculator</title>
+  <title>Math Calculator & Mini Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 40px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #333;
+    }
+    .game-buttons {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    .game-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .game-buttons button:hover {
+      background-color: #0056b3;
+    }
+    .separator {
+      display: inline-block;
+      margin: 0 15px;
+      font-weight: bold;
+      color: #555;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
   <p>WELCOME</p>
@@ -37,7 +75,7 @@
         calculation = eval(calculation);
         console.log(calculation);
         localStorage.setItem('calculation', calculation);
-      ">=</button>
+      "> = </button>
       <button onclick="updateCalculation(' / ')">/</button>
     </p>
     <p>
@@ -84,29 +122,65 @@
       localStorage.setItem('calculation', calculation);
     }
   </script>
+   <hr>
+
+  <!-- Mini game başlığı -->
+  <h2>WELCOME TO MINI GAME</h2>
 
   <!-- Yazı-tura oyunu -->
-  <div>
+  <div class="game-buttons">
+    <!-- Reset Score Butonu -->
+<button onclick="resetScore()">Reset Score</button>
+
+<script>
+  // Varsayılan skor objesi, localStorage'dan alınıyor veya sıfırla başlatılıyor
+  const score = JSON.parse(localStorage.getItem('score')) || { wins: 0, losses: 0, ties: 0 };
+
+  function resetScore() {
+    score.wins = 0;
+    score.losses = 0;
+    score.ties = 0;
+    localStorage.setItem('score', JSON.stringify(score));
+    console.log('Score reset!');
+    // Skor panosunu güncellemek istersen aşağıdaki fonksiyonu çağır
+    // updateScoreboard();
+  }
+</script>
+
     <button onclick="playGame('heads')">Heads</button>
+    <span class="separator">|</span>
     <button onclick="playGame('tails')">Tails</button>
   </div>
 
   <script>
-    const score = JSON.parse(localStorage.getItem('score')) || {
+    const scor = JSON.parse(localStorage.getItem('score')) || {
       wins: 0,
-      losses: 0
+      losses: 0,
+      ties: 0
     };
 
     function playGame(guess) {
       const randomNumber = Math.random();
       const result = randomNumber < 0.5 ? 'heads' : 'tails';
 
-      console.log(guess === result ? 'You win!' : 'You lose!');
-
       if (guess === result) {
+        console.log('You win!');
         score.wins++;
+      } else if (guess !== 'heads' && guess !== 'tails') {
+        console.log('Invalid guess');
       } else {
+        console.log('You lose!');
         score.losses++;
+      }
+
+      if (guess !== 'heads' && guess !== 'tails') {
+        console.log('Invalid input');
+      } else if (guess === result) {
+        score.wins++;
+      } else if (guess !== result) {
+        score.losses++;
+      } else {
+        score.ties++;
       }
 
       console.log(score);
