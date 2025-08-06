@@ -1,122 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manı's Website</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 50px;
-      background-color: white;
-      transition: background-color 0.4s ease;
-      position: relative;
-      min-height: 100vh;
-      box-sizing: border-box;
-      padding-bottom: 100px; /* kayan yazı için biraz daha boşluk */
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2D/3D Courier Delivery Animation</title>
+<style>
+  body {
+    margin: 0;
+    background: #87ceeb; /* sky blue */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    perspective: 800px; /* add 3D perspective */
+  }
 
-    h1 {
-      color: #333;
-    }
+  .scene {
+    position: relative;
+    width: 700px;
+    height: 350px;
+    background: #6ab04c; /* grass green */
+    border-radius: 0 0 20px 20px;
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
+    transform-style: preserve-3d;
+  }
 
-    p {
-      color: #555;
-    }
+  /* House */
+  .house {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 180px;
+    height: 180px;
+    background: #f6e58d;
+    border: 4px solid #f9ca24;
+    border-radius: 10px;
+    box-shadow:
+      10px 10px 15px rgba(0,0,0,0.2),
+      inset 0 5px 10px rgba(255,255,255,0.5);
+    transform: translateZ(20px) rotateX(5deg);
+  }
+  .roof {
+    position: absolute;
+    top: -70px;
+    left: 0;
+    width: 180px;
+    height: 70px;
+    background: #eb4d4b;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transform: translateZ(40px) rotateX(10deg);
+  }
+  .door {
+    position: absolute;
+    bottom: 0;
+    left: 70px;
+    width: 45px;
+    height: 90px;
+    background: #686de0;
+    border-radius: 6px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+    transform: translateZ(25px) rotateX(5deg);
+  }
 
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      background-color: #007bff;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+  /* Person */
+  .person {
+    position: absolute;
+    bottom: 0;
+    left: 260px;
+    width: 70px;
+    height: 130px;
+    background: linear-gradient(145deg, #f9f871, #d6d633);
+    border-radius: 35px 35px 20px 20px;
+    box-shadow:
+      inset 0 -15px 20px rgba(0,0,0,0.15),
+      5px 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    user-select: none;
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+  }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+  /* Courier */
+  .courier {
+    position: absolute;
+    bottom: 0;
+    left: -100px;
+    width: 70px;
+    height: 130px;
+    background: linear-gradient(145deg, #f0932b, #d46c06);
+    border-radius: 35px 35px 20px 20px;
+    box-shadow:
+      inset 0 -15px 20px rgba(0,0,0,0.15),
+      5px 5px 15px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    user-select: none;
+    transition: left 3s ease-in-out;
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
 
-    /* Ortak kayan yazı stili */
-    .scrolling-text {
-      position: fixed;
-      white-space: nowrap;
-      overflow: hidden;
-      box-sizing: border-box;
-      background: #222;
-      color: #fff;
-      font-size: 1.2em;
-      padding: 10px 0;
-      border-radius: 5px;
-      user-select: none;
-    }
+  .courier.active {
+    left: 350px; /* in front of person */
+  }
 
-    /* İlk kayan yazı - alt tam genişlik */
-    #scrolling-text1 {
-      bottom: 10px;
-      width: 100%;
-      left: 0;
-      padding-left: 10px;
-    }
+  .thank-you {
+    position: absolute;
+    bottom: 180px;
+    left: 310px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d3436;
+    opacity: 0;
+    transition: opacity 1s ease;
+    user-select: none;
+    transform-style: preserve-3d;
+  }
 
-    /* İkinci kayan yazı - sağ alt köşe, daha küçük genişlik */
-    #scrolling-text2 {
-      bottom: 50px;
-      right: 10px;
-      width: 300px;
-      text-align: right;
-      padding-right: 10px;
-    }
+  .thank-you.show {
+    opacity: 1;
+  }
 
-    /* Kayan yazı animasyonu ortak */
-    .scrolling-text span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 15s linear infinite;
-    }
+  /* Button */
+  .order-button {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 36px;
+    font-size: 20px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+    transition: transform 0.3s ease;
+    z-index: 10;
+    user-select: none;
+  }
 
-    @keyframes scroll-left {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-  </style>
+  .order-button:hover {
+    transform: scale(1.08);
+  }
+</style>
 </head>
 <body>
-  <h1>Welcome to Manı's Website!</h1>
-  <p>This is a simple interactive webpage built with HTML, CSS, and JavaScript.</p>
 
-  <button onclick="changeBackgroundColor()">Change Background Color</button>
+  <div class="scene" aria-label="Delivery scene with house, person and courier">
+    <div class="house" role="img" aria-label="House">
+      <div class="roof"></div>
+      <div class="door"></div>
+    </div>
+    <div class="person" id="person" role="img" aria-label="Person">🧍</div>
+    <div class="courier" id="courier" role="img" aria-label="Courier">🚚</div>
+    <div class="thank-you" id="thankYou" role="alert">Thank you!</div>
+  </div>
+
+  <button class="order-button" id="orderBtn" aria-live="polite" aria-label="Order now">Order Now</button>
+
+  <audio id="deliverySound" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg" preload="auto"></audio>
+  <audio id="thankYouSound" src="https://actions.google.com/sounds/v1/human_voices/applause.ogg" preload="auto"></audio>
 
   <script>
-    // Ask for the user's name
-    const visitorName = prompt("What's your name?");
-    console.log("Visitor's name is: " + visitorName);
+    const courier = document.getElementById('courier');
+    const thankYou = document.getElementById('thankYou');
+    const orderBtn = document.getElementById('orderBtn');
+    const deliverySound = document.getElementById('deliverySound');
+    const thankYouSound = document.getElementById('thankYouSound');
 
-    // Background color changer
-    const colors = ["#ff6b6b", "#6bc5ff", "#6bff95", "#ffe66b", "#c56bff", "#ffb56b"];
-    let index = 0;
+    orderBtn.addEventListener('click', () => {
+      // Reset visuals & text
+      thankYou.classList.remove('show');
+      courier.style.left = '-100px';
+      courier.textContent = '🚚';
 
-    function changeBackgroundColor() {
-      document.body.style.backgroundColor = colors[index];
-      index = (index + 1) % colors.length;
-    }
+      // Start courier movement and play delivery sound
+      setTimeout(() => {
+        courier.classList.add('active');
+        deliverySound.play();
+      }, 100);
+
+      // Courier "hands over" the package (change emoji)
+      setTimeout(() => {
+        courier.textContent = '🤝📦';
+      }, 3000);
+
+      // Show thank you message + play applause
+      setTimeout(() => {
+        thankYou.classList.add('show');
+        thankYouSound.play();
+      }, 4000);
+
+      // Courier leaves scene
+      setTimeout(() => {
+        courier.classList.remove('active');
+        courier.style.left = '-100px';
+        courier.textContent = '🚚';
+      }, 6500);
+    });
   </script>
 
-  <!-- Kayan yazılar -->
-  <div id="scrolling-text1" class="scrolling-text">
-    <span>Planets of the Universe 🌍 🚀 ✨ Mercury • Venus • Earth • Mars • Jupiter • Saturn • Uranus • Neptune • Pluto (yes, still a planet!)  •  and so many other planet </span>
-  </div>
-
-  <div id="scrolling-text2" class="scrolling-text">
-    <span>Largest Planets: Jupiter • Saturn • Uranus  •  Neptune</span>
-  </div>
 </body>
 </html>
