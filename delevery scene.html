@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2D/3D Courier Delivery Animation</title>
+<style>
+  body {
+    margin: 0;
+    background: #87ceeb; /* sky blue */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    perspective: 800px; /* add 3D perspective */
+  }
+
+  .scene {
+    position: relative;
+    width: 700px;
+    height: 350px;
+    background: #6ab04c; /* grass green */
+    border-radius: 0 0 20px 20px;
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
+    transform-style: preserve-3d;
+  }
+
+  /* House */
+  .house {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 180px;
+    height: 180px;
+    background: #f6e58d;
+    border: 4px solid #f9ca24;
+    border-radius: 10px;
+    box-shadow:
+      10px 10px 15px rgba(0,0,0,0.2),
+      inset 0 5px 10px rgba(255,255,255,0.5);
+    transform: translateZ(20px) rotateX(5deg);
+  }
+  .roof {
+    position: absolute;
+    top: -70px;
+    left: 0;
+    width: 180px;
+    height: 70px;
+    background: #eb4d4b;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    transform: translateZ(40px) rotateX(10deg);
+  }
+  .door {
+    position: absolute;
+    bottom: 0;
+    left: 70px;
+    width: 45px;
+    height: 90px;
+    background: #686de0;
+    border-radius: 6px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+    transform: translateZ(25px) rotateX(5deg);
+  }
+
+  /* Person */
+  .person {
+    position: absolute;
+    bottom: 0;
+    left: 260px;
+    width: 70px;
+    height: 130px;
+    background: linear-gradient(145deg, #f9f871, #d6d633);
+    border-radius: 35px 35px 20px 20px;
+    box-shadow:
+      inset 0 -15px 20px rgba(0,0,0,0.15),
+      5px 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    user-select: none;
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+  }
+
+  /* Courier */
+  .courier {
+    position: absolute;
+    bottom: 0;
+    left: -100px;
+    width: 70px;
+    height: 130px;
+    background: linear-gradient(145deg, #f0932b, #d46c06);
+    border-radius: 35px 35px 20px 20px;
+    box-shadow:
+      inset 0 -15px 20px rgba(0,0,0,0.15),
+      5px 5px 15px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    user-select: none;
+    transition: left 3s ease-in-out;
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
+
+  .courier.active {
+    left: 350px; /* in front of person */
+  }
+
+  .thank-you {
+    position: absolute;
+    bottom: 180px;
+    left: 310px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d3436;
+    opacity: 0;
+    transition: opacity 1s ease;
+    user-select: none;
+    transform-style: preserve-3d;
+  }
+
+  .thank-you.show {
+    opacity: 1;
+  }
+
+  /* Button */
+  .order-button {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 36px;
+    font-size: 20px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+    transition: transform 0.3s ease;
+    z-index: 10;
+    user-select: none;
+  }
+
+  .order-button:hover {
+    transform: scale(1.08);
+  }
+</style>
+</head>
+<body>
+
+  <div class="scene" aria-label="Delivery scene with house, person and courier">
+    <div class="house" role="img" aria-label="House">
+      <div class="roof"></div>
+      <div class="door"></div>
+    </div>
+    <div class="person" id="person" role="img" aria-label="Person">🧍</div>
+    <div class="courier" id="courier" role="img" aria-label="Courier">🚚</div>
+    <div class="thank-you" id="thankYou" role="alert">Thank you!</div>
+  </div>
+
+  <button class="order-button" id="orderBtn" aria-live="polite" aria-label="Order now">Order Now</button>
+
+  <audio id="deliverySound" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg" preload="auto"></audio>
+  <audio id="thankYouSound" src="https://actions.google.com/sounds/v1/human_voices/applause.ogg" preload="auto"></audio>
+
+  <script>
+    const courier = document.getElementById('courier');
+    const thankYou = document.getElementById('thankYou');
+    const orderBtn = document.getElementById('orderBtn');
+    const deliverySound = document.getElementById('deliverySound');
+    const thankYouSound = document.getElementById('thankYouSound');
+
+    orderBtn.addEventListener('click', () => {
+      // Reset visuals & text
+      thankYou.classList.remove('show');
+      courier.style.left = '-100px';
+      courier.textContent = '🚚';
+
+      // Start courier movement and play delivery sound
+      setTimeout(() => {
+        courier.classList.add('active');
+        deliverySound.play();
+      }, 100);
+
+      // Courier "hands over" the package (change emoji)
+      setTimeout(() => {
+        courier.textContent = '🤝📦';
+      }, 3000);
+
+      // Show thank you message + play applause
+      setTimeout(() => {
+        thankYou.classList.add('show');
+        thankYouSound.play();
+      }, 4000);
+
+      // Courier leaves scene
+      setTimeout(() => {
+        courier.classList.remove('active');
+        courier.style.left = '-100px';
+        courier.textContent = '🚚';
+      }, 6500);
+    });
+  </script>
+
+</body>
+</html>
