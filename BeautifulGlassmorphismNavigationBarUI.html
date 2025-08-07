@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CodeByGaurav - Glass Morphism Navbar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      /* Eğer resim kullanmak istersen alt satırı aktif et */
+      /* background-image: url('image.jpg'); */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 20px;
+      width: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ffda79;
+      font-size: 18px;
+      font-weight: 500;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s ease;
+    }
+
+    a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: white;
+      bottom: 0;
+      left: 50%;
+      transition: all 0.3s ease;
+      border-radius: 1px;
+    }
+
+    a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</body>
+</html>

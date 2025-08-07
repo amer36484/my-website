@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculator - By Gaurav</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1f2937; /* Gray-800 */
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #111827; /* Gray-900 */
+      padding: 30px;
+      width: 350px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .calc-text {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #1f2937;
+      border-radius: 10px;
+    }
+
+    .calc-text p {
+      width: 100%;
+      font-size: 3rem;
+      text-align: end;
+      color: #d1d5db; /* Gray-300 */
+      word-wrap: break-word;
+      word-break: break-all;
+      min-height: 50px;
+    }
+
+    button {
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      height: 65px;
+      width: 65px;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .calc-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .key-zero {
+      grid-column: span 2;
+      width: 100%;
+      border-radius: 14px;
+    }
+
+    .key-operate {
+      background: #14b8a6; /* Teal-500 */
+      color: #fff;
+    }
+
+    .key-others {
+      background: #374151; /* Gray-700 */
+      color: #e5e7eb; /* Gray-200 */
+    }
+
+    .numbers {
+      background: #1f2937; /* Gray-800 */
+      color: #f3f4f6; /* Gray-100 */
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calc-text">
+      <p id="user-input">0</p>
+    </div>
+    <div class="calc-keys">
+      <button class="key-others operations">AC</button>
+      <button class="key-others operations">DEL</button>
+      <button class="key-others operations">%</button>
+      <button class="key-operate operations">/</button>
+      <button class="numbers">7</button>
+      <button class="numbers">8</button>
+      <button class="numbers">9</button>
+      <button class="key-operate operations">*</button>
+      <button class="numbers">4</button>
+      <button class="numbers">5</button>
+      <button class="numbers">6</button>
+      <button class="key-operate operations">-</button>
+      <button class="numbers">1</button>
+      <button class="numbers">2</button>
+      <button class="numbers">3</button>
+      <button class="key-operate operations">+</button>
+      <button class="key-zero numbers">0</button>
+      <button class="numbers">.</button>
+      <button class="key-operate operations">=</button>
+    </div>
+  </div>
+
+  <script>
+    const inputValue = document.getElementById("user-input");
+    const numbers = document.querySelectorAll(".numbers");
+    const operations = document.querySelectorAll(".operations");
+
+    numbers.forEach(item => {
+      item.addEventListener("click", e => {
+        if (inputValue.innerText === "0" || inputValue.innerText === "NaN" || inputValue.innerText === "Infinity") {
+          inputValue.innerText = "";
+        }
+        inputValue.innerText += e.target.innerText.trim();
+      });
+    });
+
+    operations.forEach(item => {
+      item.addEventListener("click", e => {
+        const value = e.target.innerText;
+        let text = inputValue.innerText;
+
+        const lastChar = text.charAt(text.length - 1);
+
+        switch (value) {
+          case "=":
+            try {
+              // Güvenli eval gibi basit hesaplama:
+              // % işaretini mod olarak hesapla
+              let expression = text.replace(/%/g, "/100");
+              let result = eval(expression);
+              inputValue.innerText = result === undefined ? "0" : result;
+            } catch {
+              inputValue.innerText = "NaN";
+            }
+            break;
+          case "AC":
+            inputValue.innerText = "0";
+            break;
+          case "DEL":
+            if (text.length <= 1) {
+              inputValue.innerText = "0";
+            } else {
+              inputValue.innerText = text.slice(0, -1);
+            }
+            break;
+          case "%":
+            if (text !== "0" && !isNaN(lastChar)) {
+              inputValue.innerText += "%";
+            }
+            break;
+          default:
+            // Operatör ekleme koşulu: son karakter operatör değilse ekle
+            if (text !== "0" && !isNaN(lastChar)) {
+              inputValue.innerText += value;
+            }
+            break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
