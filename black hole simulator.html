@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Siyah Kara Delik Oluşumu</title>
+<style>
+  body {
+    background: #000;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .blackhole {
+    position: relative;
+    border-radius: 50%;
+    background: radial-gradient(circle, #000 60%, #111 100%);
+    box-shadow: 0 0 40px 10px #000;
+    opacity: 0.1;
+    width: 50px;
+    height: 50px;
+    transition: all 1s ease;
+  }
+  .accretion-disk {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50% / 100%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      #222,
+      #111 10deg,
+      #333 20deg,
+      #111 30deg,
+      #222 40deg
+    );
+    filter: drop-shadow(0 0 5px #222);
+    opacity: 0;
+    transform-origin: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="blackhole" id="blackhole">
+  <div class="accretion-disk" id="disk" style="width:0; height:0; margin-left:0; margin-top:0;"></div>
+</div>
+
+<script>
+  const blackhole = document.getElementById('blackhole');
+  const disk = document.getElementById('disk');
+
+  let size = 50;
+  let opacity = 0.1;
+  let diskSize = 0;
+  let diskOpacity = 0;
+  let rotation = 0;
+
+  function animate() {
+    if(size < 150) {
+      size += 1;
+      blackhole.style.width = size + 'px';
+      blackhole.style.height = size + 'px';
+      blackhole.style.opacity = Math.min(opacity + 0.01, 1);
+      opacity += 0.01;
+    }
+
+    if(diskSize < 250) {
+      diskSize += 2;
+      disk.style.width = diskSize + 'px';
+      disk.style.height = (diskSize / 5) + 'px';
+      disk.style.marginLeft = (-diskSize / 2) + 'px';
+      disk.style.marginTop = (-diskSize / 10) + 'px';
+      diskOpacity = Math.min(diskOpacity + 0.01, 1);
+      disk.style.opacity = diskOpacity;
+    }
+
+    rotation += 1;
+    disk.style.transform = `rotate(${rotation}deg)`;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>
