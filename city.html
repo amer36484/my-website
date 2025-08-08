@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>3D City Scene</title>
+<style>
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0;
+    height: 100%;
+    background: linear-gradient(to top, #1e3c72, #2a5298);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    perspective: 1200px;
+  }
+  .scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: visible;
+    transform-style: preserve-3d;
+    perspective-origin: center bottom;
+  }
+
+  .ground {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2000px;
+    height: 400px;
+    background: #2c3e50;
+    border-radius: 50% / 20%;
+    transform: translateX(-50%) translateZ(-200px) rotateX(75deg);
+    box-shadow: inset 0 20px 50px rgba(255,255,255,0.1);
+  }
+
+  /* Building base styles */
+  .building {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    background: linear-gradient(135deg, #4a90e2, #357ABD);
+    box-shadow: 0 0 20px rgba(53,122,189,0.7);
+    transform-style: preserve-3d;
+    border: 2px solid #275d9e;
+    border-bottom: 5px solid #1f3e6d;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+  .building:hover {
+    transform: translateZ(50px) scale(1.05);
+    box-shadow: 0 0 40px rgba(53,122,189,1);
+  }
+
+  /* Building tops */
+  .building-top {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(135deg, #7bb6ff, #4a90e2);
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 5px 10px rgba(255,255,255,0.5);
+    transform-style: preserve-3d;
+  }
+
+  /* Different heights for buildings */
+  .b1 { height: 150px; left: 200px; }
+  .b2 { height: 230px; left: 300px; }
+  .b3 { height: 180px; left: 400px; }
+  .b4 { height: 280px; left: 520px; }
+  .b5 { height: 200px; left: 620px; }
+  .b6 { height: 160px; left: 740px; }
+  .b7 { height: 270px; left: 860px; }
+  .b8 { height: 220px; left: 980px; }
+  .b9 { height: 180px; left: 1100px; }
+  .b10{ height: 210px; left: 1220px; }
+
+  /* Street lines */
+  .street {
+    position: absolute;
+    bottom: 350px;
+    left: 50%;
+    width: 1200px;
+    height: 6px;
+    background: repeating-linear-gradient(
+      90deg,
+      #555,
+      #555 20px,
+      #777 20px,
+      #777 40px
+    );
+    transform: translateX(-50%) translateZ(10px) rotateX(75deg);
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+
+</style>
+</head>
+<body>
+  <div class="scene" role="main" aria-label="3D city scene">
+
+    <div class="ground"></div>
+
+    <!-- Buildings -->
+    <div class="building b1" tabindex="0" aria-label="Building 1">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b2" tabindex="0" aria-label="Building 2">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b3" tabindex="0" aria-label="Building 3">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b4" tabindex="0" aria-label="Building 4">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b5" tabindex="0" aria-label="Building 5">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b6" tabindex="0" aria-label="Building 6">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b7" tabindex="0" aria-label="Building 7">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b8" tabindex="0" aria-label="Building 8">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b9" tabindex="0" aria-label="Building 9">
+      <div class="building-top"></div>
+    </div>
+    <div class="building b10" tabindex="0" aria-label="Building 10">
+      <div class="building-top"></div>
+    </div>
+
+    <div class="street"></div>
+
+  </div>
+
+  <script>
+    // Optional: Add some simple animation for buildings like a light pulse
+    const buildings = document.querySelectorAll('.building');
+    buildings.forEach((b, i) => {
+      setInterval(() => {
+        b.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.3)';
+        setTimeout(() => {
+          b.style.boxShadow = '0 0 20px rgba(53,122,189,0.7)';
+        }, 800);
+      }, 4000 + i * 500);
+    });
+  </script>
+</body>
+</html>
+ground
