@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>3D CSS Social Tiles</title>
+  <title>3D CSS Social Tiles </title>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -31,7 +31,6 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      /* Ortalamak için flex ve container yüksekliği */
       perspective: 800px;
     }
 
@@ -81,7 +80,8 @@
       z-index: -1;
     }
 
-    ul li a .fa-brands {
+    ul li a .fa-brands,
+    ul li a .fa-solid {
       font-size: 40px;
       color: #262626;
       line-height: 80px;
@@ -107,6 +107,7 @@
     }
 
     ul li:hover a .fa-brands,
+    ul li:hover a .fa-solid,
     ul li:hover a span {
       color: #fff;
     }
@@ -158,37 +159,73 @@
     ul li:hover:nth-child(4) a::after {
       background: #e46880;
     }
+
+    ul li:hover:nth-child(5) a {
+      background: #ff0000; /* YouTube kırmızı */
+    }
+
+    ul li:hover:nth-child(5) a::before {
+      background: #cc0000;
+    }
+
+    ul li:hover:nth-child(5) a::after {
+      background: #ff3333;
+    }
+
+    ul li:hover:nth-child(6) a {
+      background: #10a37f; /* ChatGPT yeşili (OpenAI) */
+    }
+
+    ul li:hover:nth-child(6) a::before {
+      background: #0d8169;
+    }
+
+    ul li:hover:nth-child(6) a::after {
+      background: #12b089;
+    }
   </style>
 </head>
 <body>
   <ul>
     <li>
-      <a href="https://www.facebook.com">
-
+      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
         <span>- Facebook</span>
       </a>
     </li>
 
     <li>
-      <a href="https://www.twitter.com">
+      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-twitter" aria-hidden="true"></i>
         <span>- Twitter</span>
       </a>
     </li>
 
     <li>
-  <a href="https://www.google.com">
-    <i class="fa-brands fa-google" aria-hidden="true"></i>
-    <span>- Google</span>
-  </a>
-</li>
-
+      <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-google" aria-hidden="true"></i>
+        <span>- Google</span>
+      </a>
+    </li>
 
     <li>
-      <a href="https://www.instagram.com">
+      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-instagram" aria-hidden="true"></i>
         <span>- Instagram</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+        <span>- YouTube</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-robot" aria-hidden="true"></i>
+        <span>- ChatGPT</span>
       </a>
     </li>
   </ul>
