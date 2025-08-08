@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CodeByMANI- Glass Morphism Navbar</title>
+  <title>CodeByMANI - Glass Morphism Navbar</title>
   <style>
     * {
       margin: 0;
@@ -14,14 +14,10 @@
 
     body {
       background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-      /* Eğer resim kullanmak istersen alt satırı aktif et */
-      /* background-image: url('image.jpg'); */
       background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       overflow-x: hidden;
+      padding-top: 100px;
     }
 
     nav {
@@ -44,6 +40,7 @@
       display: flex;
       justify-content: center;
       gap: 3rem;
+      flex-wrap: wrap;
     }
 
     a {
@@ -76,18 +73,57 @@
     a:hover {
       color: #fff;
     }
+
+    section {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+    }
+
+    section h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    section a {
+      color: #fff;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <nav>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Portfolio</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#help">How can I help you?</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://chat.openai.com/" target="_blank">ChatGPT</a></li>
+      <li><a href="https://www.youtube.com/" target="_blank">YouTube</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
-</body>
-</html>
 
+  <section id="help">
+    <h2>How can I help you?</h2>
+    <p>If you have any questions, feel free to explore the links above or reach out via email.</p>
+  </section>
+
+  <section id="about">
+    <h2>About This Project</h2>
+    <p>This website and all its code were written by <strong>Mani Najafpour</strong>.<br>
+    It is connected with <a href="https://chat.openai.com/" target="_blank">ChatGPT</a> and even available on <a href="https://www.youtube.com/" target="_blank">YouTube</a>.</p>
+  </section>
+
+  <section id="contact">
+  <h2>Contact Me</h2>
+  <p>You can reach me anytime via email at 
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=najafamer011@gmail.com" target="_blank">
+      najafamer011@gmail.com
+    </a>
+  </p>
+</section>
+</script>
+  </body>
+</html>
