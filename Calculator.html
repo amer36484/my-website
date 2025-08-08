@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculator - ByMANI</title>
+  <title>Calculator - By mani</title>
   <style>
     * {
       margin: 0;
@@ -13,7 +13,7 @@
     }
 
     body {
-      background-color: #1f2937; /* Gray-800 */
+      background-color: #1f2937;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -21,7 +21,7 @@
     }
 
     .container {
-      background: #111827; /* Gray-900 */
+      background: #111827;
       padding: 30px;
       width: 350px;
       border-radius: 20px;
@@ -39,7 +39,7 @@
       width: 100%;
       font-size: 3rem;
       text-align: end;
-      color: #d1d5db; /* Gray-300 */
+      color: #d1d5db;
       word-wrap: break-word;
       word-break: break-all;
       min-height: 50px;
@@ -74,18 +74,24 @@
     }
 
     .key-operate {
-      background: #14b8a6; /* Teal-500 */
+      background: #14b8a6;
       color: #fff;
     }
 
     .key-others {
-      background: #374151; /* Gray-700 */
-      color: #e5e7eb; /* Gray-200 */
+      background: #374151;
+      color: #e5e7eb;
     }
 
     .numbers {
-      background: #1f2937; /* Gray-800 */
-      color: #f3f4f6; /* Gray-100 */
+      background: #1f2937;
+      color: #f3f4f6;
+    }
+
+    #clear-memory {
+      grid-column: span 4;
+      background: #dc2626;
+      color: white;
     }
 
     button:active {
@@ -118,6 +124,7 @@
       <button class="key-zero numbers">0</button>
       <button class="numbers">.</button>
       <button class="key-operate operations">=</button>
+      <button class="key-others" id="clear-memory">Memory Clear</button>
     </div>
   </div>
 
@@ -125,6 +132,15 @@
     const inputValue = document.getElementById("user-input");
     const numbers = document.querySelectorAll(".numbers");
     const operations = document.querySelectorAll(".operations");
+    const clearMemoryBtn = document.getElementById("clear-memory");
+
+    // Sayfa açıldığında belleği oku
+    window.addEventListener("load", () => {
+      const memoryValue = localStorage.getItem("calcMemory");
+      if (memoryValue) {
+        inputValue.innerText = memoryValue;
+      }
+    });
 
     numbers.forEach(item => {
       item.addEventListener("click", e => {
@@ -132,6 +148,7 @@
           inputValue.innerText = "";
         }
         inputValue.innerText += e.target.innerText.trim();
+        saveToMemory();
       });
     });
 
@@ -139,23 +156,22 @@
       item.addEventListener("click", e => {
         const value = e.target.innerText;
         let text = inputValue.innerText;
-
         const lastChar = text.charAt(text.length - 1);
 
         switch (value) {
           case "=":
             try {
-              // Güvenli eval gibi basit hesaplama:
-              // % işaretini mod olarak hesapla
               let expression = text.replace(/%/g, "/100");
               let result = eval(expression);
               inputValue.innerText = result === undefined ? "0" : result;
+              saveToMemory();
             } catch {
               inputValue.innerText = "NaN";
             }
             break;
           case "AC":
             inputValue.innerText = "0";
+            saveToMemory();
             break;
           case "DEL":
             if (text.length <= 1) {
@@ -163,21 +179,35 @@
             } else {
               inputValue.innerText = text.slice(0, -1);
             }
+            saveToMemory();
             break;
           case "%":
             if (text !== "0" && !isNaN(lastChar)) {
               inputValue.innerText += "%";
+              saveToMemory();
             }
             break;
           default:
-            // Operatör ekleme koşulu: son karakter operatör değilse ekle
             if (text !== "0" && !isNaN(lastChar)) {
               inputValue.innerText += value;
+              saveToMemory();
             }
             break;
         }
       });
     });
+
+    // Memory clear butonuna tıklanınca
+    clearMemoryBtn.addEventListener("click", () => {
+      localStorage.removeItem("calcMemory");
+      alert("Memory cleared!");
+
+    });
+
+    // Hesabı belleğe kaydet
+    function saveToMemory() {
+      localStorage.setItem("calcMemory", inputValue.innerText);
+    }
   </script>
 </body>
 </html>
