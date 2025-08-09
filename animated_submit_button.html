@@ -13,6 +13,7 @@
       align-items: center;
       height: 100vh;
       background: #000;
+      color: white;
     }
 
     .submit {
@@ -26,6 +27,7 @@
       color: white;
       border: 2px solid;
       transition: width 0.5s;
+      margin-bottom: 20px;
     }
 
     .process {
@@ -74,23 +76,65 @@
       75% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
+
+    #nextBtn {
+      display: none;
+      padding: 10px 20px;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 2px solid #3bb78f;
+      background: transparent;
+      color: #3bb78f;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    #nextBtn:hover {
+      background: #3bb78f;
+      color: #000;
+    }
+
+    #response {
+      margin-top: 20px;
+      font-size: 20px;
+      max-width: 400px;
+      text-align: center;
+      min-height: 60px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <button id="btn" class="submit">Submit</button>
+  <button id="nextBtn">What would you like to do next?</button>
+  <div id="response"></div>
 
   <script>
     let btn = document.getElementById('btn');
+    let nextBtn = document.getElementById('nextBtn');
+    let response = document.getElementById('response');
+
     btn.addEventListener("click", function () {
-        btn.setAttribute('class', 'submit process');
-        btn.innerHTML = 'Processing';
-        setTimeout(() => {
-            btn.setAttribute('class', 'submit submitted');
-            btn.innerHTML = `
-              <span class="tick">&#10004;</span>
-              Submitted
-            `;
-        }, 5000);
+      btn.setAttribute('class', 'submit process');
+      btn.innerHTML = 'Processing';
+      nextBtn.style.display = 'none';
+      response.innerText = '';
+
+      setTimeout(() => {
+        btn.setAttribute('class', 'submit submitted');
+        btn.innerHTML = `
+          <span class="tick">&#10004;</span>
+          Submitted
+        `;
+        nextBtn.style.display = 'inline-block';
+      }, 5000);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      response.innerHTML = `Feel free to ask me anything or let me suggest some ideas!<br>
+        If you want, ask ChatGPT directly at 
+        <a href="https://chat.openai.com/" target="_blank" style="color:#3bb78f;">chat.openai.com</a><br>
+        Or you can <a href="https://mail.google.com/mail/?view=cm&fs=1&to=najafamer011@gmail.com&su=Question&body=Hi%20Mani," target="_blank" style="color:#3bb78f;">email me</a> anytime.`;
     });
   </script>
 </body>
